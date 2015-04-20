@@ -1,0 +1,90 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://com.chakray" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://com.chakray">
+    <wsdl:documentation>SubtractService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://com.chakray">
+            <xs:element name="substract">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="a" type="xs:int"></xs:element>
+                        <xs:element minOccurs="0" name="b" type="xs:int"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="substractResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:int"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="substractRequest">
+        <wsdl:part name="parameters" element="ns:substract"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="substractResponse">
+        <wsdl:part name="parameters" element="ns:substractResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="SubtractServicePortType">
+        <wsdl:operation name="substract">
+            <wsdl:input message="ns:substractRequest" wsaw:Action="urn:substract"></wsdl:input>
+            <wsdl:output message="ns:substractResponse" wsaw:Action="urn:substractResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SubtractServiceSoap11Binding" type="ns:SubtractServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+        <wsdl:operation name="substract">
+            <soap:operation soapAction="urn:substract" style="document"></soap:operation>
+            <wsdl:input>
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="SubtractServiceSoap12Binding" type="ns:SubtractServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap12:binding>
+        <wsdl:operation name="substract">
+            <soap12:operation soapAction="urn:substract" style="document"></soap12:operation>
+            <wsdl:input>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="SubtractServiceHttpBinding" type="ns:SubtractServicePortType">
+        <http:binding verb="POST"></http:binding>
+        <wsdl:operation name="substract">
+            <http:operation location="substract"></http:operation>
+            <wsdl:input>
+                <mime:content type="text/xml" part="parameters"></mime:content>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="parameters"></mime:content>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SubtractService">
+        <wsdl:port name="SubtractServiceHttpSoap11Endpoint" binding="ns:SubtractServiceSoap11Binding">
+            <soap:address location="http://10.0.0.112:9765/services/SubtractService.SubtractServiceHttpSoap11Endpoint/"></soap:address>
+        </wsdl:port>
+        <wsdl:port name="SubtractServiceHttpsSoap11Endpoint" binding="ns:SubtractServiceSoap11Binding">
+            <soap:address location="https://10.0.0.112:9445/services/SubtractService.SubtractServiceHttpsSoap11Endpoint/"></soap:address>
+        </wsdl:port>
+        <wsdl:port name="SubtractServiceHttpsSoap12Endpoint" binding="ns:SubtractServiceSoap12Binding">
+            <soap12:address location="https://10.0.0.112:9445/services/SubtractService.SubtractServiceHttpsSoap12Endpoint/"></soap12:address>
+        </wsdl:port>
+        <wsdl:port name="SubtractServiceHttpSoap12Endpoint" binding="ns:SubtractServiceSoap12Binding">
+            <soap12:address location="http://10.0.0.112:9765/services/SubtractService.SubtractServiceHttpSoap12Endpoint/"></soap12:address>
+        </wsdl:port>
+        <wsdl:port name="SubtractServiceHttpEndpoint" binding="ns:SubtractServiceHttpBinding">
+            <http:address location="http://10.0.0.112:9765/services/SubtractService.SubtractServiceHttpEndpoint/"></http:address>
+        </wsdl:port>
+        <wsdl:port name="SubtractServiceHttpsEndpoint" binding="ns:SubtractServiceHttpBinding">
+            <http:address location="https://10.0.0.112:9445/services/SubtractService.SubtractServiceHttpsEndpoint/"></http:address>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

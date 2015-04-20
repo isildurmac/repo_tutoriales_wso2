@@ -1,0 +1,90 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://multiply.com.chakray" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://multiply.com.chakray">
+    <wsdl:documentation>MultiplyService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://multiply.com.chakray">
+            <xs:element name="multiply">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="a" type="xs:int"></xs:element>
+                        <xs:element minOccurs="0" name="b" type="xs:int"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="multiplyResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:int"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="multiplyRequest">
+        <wsdl:part name="parameters" element="ns:multiply"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="multiplyResponse">
+        <wsdl:part name="parameters" element="ns:multiplyResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="MultiplyServicePortType">
+        <wsdl:operation name="multiply">
+            <wsdl:input message="ns:multiplyRequest" wsaw:Action="urn:multiply"></wsdl:input>
+            <wsdl:output message="ns:multiplyResponse" wsaw:Action="urn:multiplyResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="MultiplyServiceSoap11Binding" type="ns:MultiplyServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+        <wsdl:operation name="multiply">
+            <soap:operation soapAction="urn:multiply" style="document"></soap:operation>
+            <wsdl:input>
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="MultiplyServiceSoap12Binding" type="ns:MultiplyServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap12:binding>
+        <wsdl:operation name="multiply">
+            <soap12:operation soapAction="urn:multiply" style="document"></soap12:operation>
+            <wsdl:input>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="MultiplyServiceHttpBinding" type="ns:MultiplyServicePortType">
+        <http:binding verb="POST"></http:binding>
+        <wsdl:operation name="multiply">
+            <http:operation location="multiply"></http:operation>
+            <wsdl:input>
+                <mime:content type="text/xml" part="parameters"></mime:content>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="parameters"></mime:content>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="MultiplyService">
+        <wsdl:port name="MultiplyServiceHttpSoap11Endpoint" binding="ns:MultiplyServiceSoap11Binding">
+            <soap:address location="http://10.0.0.112:9765/services/MultiplyService.MultiplyServiceHttpSoap11Endpoint/"></soap:address>
+        </wsdl:port>
+        <wsdl:port name="MultiplyServiceHttpsSoap11Endpoint" binding="ns:MultiplyServiceSoap11Binding">
+            <soap:address location="https://10.0.0.112:9445/services/MultiplyService.MultiplyServiceHttpsSoap11Endpoint/"></soap:address>
+        </wsdl:port>
+        <wsdl:port name="MultiplyServiceHttpSoap12Endpoint" binding="ns:MultiplyServiceSoap12Binding">
+            <soap12:address location="http://10.0.0.112:9765/services/MultiplyService.MultiplyServiceHttpSoap12Endpoint/"></soap12:address>
+        </wsdl:port>
+        <wsdl:port name="MultiplyServiceHttpsSoap12Endpoint" binding="ns:MultiplyServiceSoap12Binding">
+            <soap12:address location="https://10.0.0.112:9445/services/MultiplyService.MultiplyServiceHttpsSoap12Endpoint/"></soap12:address>
+        </wsdl:port>
+        <wsdl:port name="MultiplyServiceHttpEndpoint" binding="ns:MultiplyServiceHttpBinding">
+            <http:address location="http://10.0.0.112:9765/services/MultiplyService.MultiplyServiceHttpEndpoint/"></http:address>
+        </wsdl:port>
+        <wsdl:port name="MultiplyServiceHttpsEndpoint" binding="ns:MultiplyServiceHttpBinding">
+            <http:address location="https://10.0.0.112:9445/services/MultiplyService.MultiplyServiceHttpsEndpoint/"></http:address>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

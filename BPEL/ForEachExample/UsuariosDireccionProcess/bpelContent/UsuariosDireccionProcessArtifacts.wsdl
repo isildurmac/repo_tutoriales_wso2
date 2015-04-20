@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://chakray.com/bpeltutorials" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:wsdl="http://www.example.org/UsuariosData/" xmlns:wsdl1="http://www.example.org/DireccionUsuario/"
+	name="UsuariosDireccionProcess" targetNamespace="http://chakray.com/bpeltutorials">
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		TYPE DEFINITION - List of types participating in this BPEL process The BPEL 
+		Designer will generate default request and response types but you can define 
+		or import any XML Schema type and use them as part of the message types. 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="UsuariosDataType">
+		<plnk:role name="UsuariosDataRole" portType="wsdl:UsuariosData" />
+	</plnk:partnerLinkType>
+	<plnk:partnerLinkType name="DireccionUsuarioType">
+		<plnk:role name="DireccionUsuarioRole" portType="wsdl1:DireccionUsuario" />
+	</plnk:partnerLinkType>
+	<import location="UsuariosData.wsdl" namespace="http://www.example.org/UsuariosData/" />
+	<import location="DireccionUsuario.wsdl" namespace="http://www.example.org/DireccionUsuario/" />
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:Q1="http://www.example.org/commonSchema"
+			attributeFormDefault="unqualified" elementFormDefault="qualified"
+			targetNamespace="http://chakray.com/bpeltutorials">
+			<import namespace="http://www.example.org/commonSchema"
+				schemaLocation="commonSchema.xsd" />
+			<element name="UsuariosDireccionProcessRequest">
+				<complexType>
+					<sequence>
+						<element name="nombre" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="UsuariosDireccionProcessResponse">
+				<complexType>
+					<sequence>
+						<element name="Usuarios" type="Q1:UsuarioType" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		MESSAGE TYPE DEFINITION - Definition of the message types used as part of 
+		the port type definitions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<message name="UsuariosDireccionProcessRequestMessage">
+		<part element="tns:UsuariosDireccionProcessRequest" name="payload" />
+	</message>
+	<message name="UsuariosDireccionProcessResponseMessage">
+		<part element="tns:UsuariosDireccionProcessResponse" name="payload" />
+	</message>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PORT TYPE DEFINITION - A port type groups a set of operations into a logical 
+		service unit. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<!-- portType implemented by the UsuariosDireccionProcess BPEL process -->
+	<portType name="UsuariosDireccionProcess">
+		<operation name="process">
+			<input message="tns:UsuariosDireccionProcessRequestMessage" />
+			<output message="tns:UsuariosDireccionProcessResponseMessage" />
+		</operation>
+	</portType>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PARTNER LINK TYPE DEFINITION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="UsuariosDireccionProcess">
+		<plnk:role name="UsuariosDireccionProcessProvider" portType="tns:UsuariosDireccionProcess" />
+	</plnk:partnerLinkType>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		BINDING DEFINITION - Defines the message format and protocol details for 
+		a web service. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<binding name="UsuariosDireccionProcessBinding"
+		type="tns:UsuariosDireccionProcess">
+
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="process">
+
+			<soap:operation
+				soapAction="http://chakray.com/bpeltutorials/process" />
+			<input>
+
+				<soap:body use="literal" />
+			</input>
+			<output>
+
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		SERVICE DEFINITION - A service groups a set of ports into a service unit. 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<service name="UsuariosDireccionProcess">
+		<port binding="tns:UsuariosDireccionProcessBinding" name="UsuariosDireccionProcessPort">
+			<soap:address location="http://localhost:8080/UsuariosDireccionProcess" />
+		</port>
+	</service>
+</definitions>

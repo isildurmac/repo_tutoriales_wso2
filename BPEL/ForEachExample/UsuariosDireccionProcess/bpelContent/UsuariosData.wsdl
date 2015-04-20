@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/UsuariosData/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="UsuariosData" targetNamespace="http://www.example.org/UsuariosData/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/UsuariosData/" xmlns:Q1="http://www.example.org/commonSchema">
+            <xsd:import schemaLocation="commonSchema.xsd" namespace="http://www.example.org/commonSchema"></xsd:import>
+            <xsd:element name="getUserData">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="nombreUsuario" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserDataResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Usuarios" type="tns:UserType" maxOccurs="unbounded" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    
+
+    
+      <xsd:complexType name="UserType">
+      	<xsd:sequence>
+      		<xsd:element name="nombre" type="xsd:string"></xsd:element>
+      		<xsd:element name="apellido" type="xsd:string"></xsd:element>
+      		<xsd:element name="idDirecciones" type="tns:idDireccionesType" maxOccurs="1" minOccurs="1"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+    
+      <xsd:complexType name="idDireccionesType">
+      	<xsd:sequence>
+      		<xsd:element name="idDireccion" type="xsd:int" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getUserDataRequest">
+    <wsdl:part element="tns:getUserData" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getUserDataResponse">
+    <wsdl:part element="tns:getUserDataResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="UsuariosData">
+    <wsdl:operation name="getUserData">
+      <wsdl:input message="tns:getUserDataRequest"/>
+      <wsdl:output message="tns:getUserDataResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UsuariosDataSOAP" type="tns:UsuariosData">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getUserData">
+      <soap:operation soapAction="http://www.example.org/UsuariosData/getUserData"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UsuariosData">
+    <wsdl:port binding="tns:UsuariosDataSOAP" name="UsuariosDataSOAP">
+      <soap:address location="http://localhost:8088/mockUsuariosDataSOAP"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

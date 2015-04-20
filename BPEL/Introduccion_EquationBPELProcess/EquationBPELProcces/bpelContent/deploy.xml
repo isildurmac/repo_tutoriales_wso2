@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
+	xmlns:adder.com.chakray="http://adder.com.chakray"
+	xmlns:multiply.com.chakray="http://multiply.com.chakray"
+	xmlns:com.chakray="http://com.chakray" xmlns:sample="http://chakray.com/bps/sample"
+	xmlns:square.com.chakray="http://square.com.chakray">
+	<process name="sample:EquationBPELProcces">
+		<active>true</active>
+		<retired>false</retired>
+		<process-events generate="all" />
+		<provide partnerLink="client">
+			<service name="sample:EquationBPELProcces" port="EquationBPELProccesPort" />
+		</provide>
+		<invoke partnerLink="AdderService_PL">
+			<service name="adder.com.chakray:AdderService" port="AdderServiceHttpSoap12Endpoint" />
+		</invoke>
+		<invoke partnerLink="MultiplyService_PL">
+			<service name="multiply.com.chakray:MultiplyService" port="MultiplyServiceHttpSoap12Endpoint" />
+		</invoke>
+		<invoke partnerLink="SubtractService_PL">
+			<service name="com.chakray:SubtractService" port="SubtractServiceHttpSoap12Endpoint" />
+		</invoke>
+		<invoke partnerLink="SquareService_PL">
+			<service name="square.com.chakray:SquareService" port="SquareServiceHttpSoap12Endpoint" />
+		</invoke>
+	</process>
+</deploy>

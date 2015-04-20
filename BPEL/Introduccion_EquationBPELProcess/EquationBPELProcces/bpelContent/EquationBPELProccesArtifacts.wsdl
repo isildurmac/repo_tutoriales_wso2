@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://chakray.com/bps/sample" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:wsdl="http://adder.com.chakray" xmlns:wsdl1="http://multiply.com.chakray"
+	xmlns:wsdl2="http://com.chakray" xmlns:wsdl3="http://square.com.chakray"
+	name="EquationBPELProcces" targetNamespace="http://chakray.com/bps/sample">
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		TYPE DEFINITION - List of types participating in this BPEL process The BPEL 
+		Designer will generate default request and response types but you can define 
+		or import any XML Schema type and use them as part of the message types. 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="AdderServiceType">
+		<plnk:role name="AdderServiceRol" portType="wsdl:AdderServicePortType" />
+	</plnk:partnerLinkType>
+	<plnk:partnerLinkType name="MultiplyServiceType">
+		<plnk:role name="MultiplyServiceRole" portType="wsdl1:MultiplyServicePortType" />
+	</plnk:partnerLinkType>
+	<plnk:partnerLinkType name="SubtractServiceType">
+		<plnk:role name="SubtractServiceRole" portType="wsdl2:SubtractServicePortType" />
+	</plnk:partnerLinkType>
+	<plnk:partnerLinkType name="SquareServiceType">
+		<plnk:role name="SquareServiceRole" portType="wsdl3:SquareServicePortType" />
+	</plnk:partnerLinkType>
+	<import location="AdderService.wsdl" namespace="http://adder.com.chakray" />
+	<import location="MultiplyService.wsdl" namespace="http://multiply.com.chakray" />
+	<import location="SubtractService.wsdl" namespace="http://com.chakray" />
+	<import location="SquareService.wsdl" namespace="http://square.com.chakray" />
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			attributeFormDefault="unqualified" elementFormDefault="qualified"
+			targetNamespace="http://chakray.com/bps/sample">
+			<element name="EquationBPELProccesRequest">
+				<complexType>
+					<sequence>
+						<element name="numA" type="int" />
+						<element name="numB" type="int" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="EquationBPELProccesResponse">
+				<complexType>
+					<sequence>
+						<element name="resultadoOp" type="int" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		MESSAGE TYPE DEFINITION - Definition of the message types used as part of 
+		the port type defintions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<message name="EquationBPELProccesRequestMessage">
+		<part element="tns:EquationBPELProccesRequest" name="payload" />
+	</message>
+	<message name="EquationBPELProccesResponseMessage">
+		<part element="tns:EquationBPELProccesResponse" name="payload" />
+	</message>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PORT TYPE DEFINITION - A port type groups a set of operations into a logical 
+		service unit. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<!-- portType implemented by the EquationBPELProcces BPEL process -->
+	<portType name="EquationBPELProcces">
+		<operation name="process">
+			<input message="tns:EquationBPELProccesRequestMessage" />
+			<output message="tns:EquationBPELProccesResponseMessage" />
+		</operation>
+	</portType>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PARTNER LINK TYPE DEFINITION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="EquationBPELProcces">
+		<plnk:role name="EquationBPELProccesProvider" portType="tns:EquationBPELProcces" />
+	</plnk:partnerLinkType>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		BINDING DEFINITION - Defines the message format and protocol details for 
+		a web service. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<binding name="EquationBPELProccesBinding" type="tns:EquationBPELProcces">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="process">
+			<soap:operation soapAction="http://chakray.com/bps/sample/process" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		SERVICE DEFINITION - A service groups a set of ports into a service unit. 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<service name="EquationBPELProcces">
+		<port binding="tns:EquationBPELProccesBinding" name="EquationBPELProccesPort">
+			<soap:address location="http://localhost:8080/EquationBPELProcces" />
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,13 @@
+EquationBPELProcces/target/**
+MultiplyService/target/**
+SquareService/target/**
+AdderService/target/**
+Deploy1/target/**
+SubtractService/target/**
+BPEL/Introduccion_EquationBPELProcess/EquationBPELProcces/target/**
+BPEL/ForEachExample/UsuariosDireccionProcess/target/**
+BPEL/Introduccion_EquationBPELProcess/AdderService/target/**
+BPEL/Introduccion_EquationBPELProcess/Deploy1/target/**
+BPEL/Introduccion_EquationBPELProcess/MultiplyService/target/**
+BPEL/Introduccion_EquationBPELProcess/SquareService/target/**
+BPEL/Introduccion_EquationBPELProcess/SubtractService/target/**

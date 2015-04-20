@@ -1,0 +1,90 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://adder.com.chakray" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://adder.com.chakray">
+    <wsdl:documentation>AdderService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://adder.com.chakray">
+            <xs:element name="add">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="a" type="xs:int"></xs:element>
+                        <xs:element minOccurs="0" name="b" type="xs:int"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="addResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:int"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="addRequest">
+        <wsdl:part name="parameters" element="ns:add"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="addResponse">
+        <wsdl:part name="parameters" element="ns:addResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="AdderServicePortType">
+        <wsdl:operation name="add">
+            <wsdl:input message="ns:addRequest" wsaw:Action="urn:add"></wsdl:input>
+            <wsdl:output message="ns:addResponse" wsaw:Action="urn:addResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="AdderServiceSoap11Binding" type="ns:AdderServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+        <wsdl:operation name="add">
+            <soap:operation soapAction="urn:add" style="document"></soap:operation>
+            <wsdl:input>
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="AdderServiceSoap12Binding" type="ns:AdderServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap12:binding>
+        <wsdl:operation name="add">
+            <soap12:operation soapAction="urn:add" style="document"></soap12:operation>
+            <wsdl:input>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"></soap12:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="AdderServiceHttpBinding" type="ns:AdderServicePortType">
+        <http:binding verb="POST"></http:binding>
+        <wsdl:operation name="add">
+            <http:operation location="add"></http:operation>
+            <wsdl:input>
+                <mime:content type="text/xml" part="parameters"></mime:content>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="parameters"></mime:content>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="AdderService">
+        <wsdl:port name="AdderServiceHttpsSoap11Endpoint" binding="ns:AdderServiceSoap11Binding">
+            <soap:address location="https://10.0.0.112:9445/services/AdderService.AdderServiceHttpsSoap11Endpoint/"></soap:address>
+        </wsdl:port>
+        <wsdl:port name="AdderServiceHttpSoap11Endpoint" binding="ns:AdderServiceSoap11Binding">
+            <soap:address location="http://10.0.0.112:9765/services/AdderService.AdderServiceHttpSoap11Endpoint/"></soap:address>
+        </wsdl:port>
+        <wsdl:port name="AdderServiceHttpsSoap12Endpoint" binding="ns:AdderServiceSoap12Binding">
+            <soap12:address location="https://10.0.0.112:9445/services/AdderService.AdderServiceHttpsSoap12Endpoint/"></soap12:address>
+        </wsdl:port>
+        <wsdl:port name="AdderServiceHttpSoap12Endpoint" binding="ns:AdderServiceSoap12Binding">
+            <soap12:address location="http://10.0.0.112:9765/services/AdderService.AdderServiceHttpSoap12Endpoint/"></soap12:address>
+        </wsdl:port>
+        <wsdl:port name="AdderServiceHttpsEndpoint" binding="ns:AdderServiceHttpBinding">
+            <http:address location="https://10.0.0.112:9445/services/AdderService.AdderServiceHttpsEndpoint/"></http:address>
+        </wsdl:port>
+        <wsdl:port name="AdderServiceHttpEndpoint" binding="ns:AdderServiceHttpBinding">
+            <http:address location="http://10.0.0.112:9765/services/AdderService.AdderServiceHttpEndpoint/"></http:address>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
